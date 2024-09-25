@@ -1,4 +1,4 @@
-package org.example.OOP;
+package org.example.ObjectOrientatedProgramming;
 
 public class Dog extends Canidae{
 

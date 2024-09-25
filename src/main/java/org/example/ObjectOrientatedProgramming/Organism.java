@@ -1,4 +1,4 @@
-package org.example.OOP;
+package org.example.ObjectOrientatedProgramming;
 
 // Blueprint for classes
 // Collection of method declarations with no data and method body

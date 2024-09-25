@@ -1,4 +1,4 @@
-package org.example.OOP;
+package org.example.ObjectOrientatedProgramming;
 
 // Abstraction: Animal is an abstract concept
 public abstract class Animal implements Organism{
