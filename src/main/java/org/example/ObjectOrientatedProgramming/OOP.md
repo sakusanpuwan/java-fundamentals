@@ -1,14 +1,6 @@
-- [Intro](#Intro)
-- [Classes & Objects](#Classes&Objects)
-- [Interfaces](#Interfaces)
-- [Abstract](#Abstract)
-- [Principles of OOP](#Principles of OOP)
-
-
-
 ## Intro
 Object-oriented programming (OOP) is a programming paradigm that organizes code into objects, which are instances of classes.
-## Classes&Objects
+## Classes & Objects
 - **Object** is an instance of a class
 - **Class** is a type of object and serves as the blueprint – defining the data which the object stores and the methods for accessing and manipulating the data 
 
@@ -131,9 +123,9 @@ public class Main {
     }
 } 
 ```
-## Principles of OOP
+## Principles Of OOP
+![OOP-Principles](https://github.com/user-attachments/assets/667948b8-d48c-4888-8d61-e7bf8658c31f)
 
-![](C:\Users\sakus\Documents\Coding\Java\java-fundamentals\src\main\resources\OOP-Principles.png)
 ### Abstraction
 process of simplifying complex systems by breaking them down into smaller, more manageable parts. Exposing only the essential features without needing to understand the underlying logic.  
 For example, when using car you're only exposed to wheel, pedals and buttons (the interface) without needing to understand how things work under the hood.  
@@ -172,7 +164,7 @@ public class Main {
     }
 }
 ```
-## Polymorphism 
+### Polymorphism 
 allows objects to be treated as instances of their parent class. It enables one action to behave differently depending on the object that is performing it. This enables code to be written in a generic way that can handle different types of objects without the need for explicit type-checking.  
 
 Polymorphism can be achieved through method overriding (subclasses providing their own implementation of a method) and method overloading (multiple methods with the same name but different parameters)
@@ -208,7 +200,7 @@ public class Main {
 }
 ```
 
-## Inheritance
+### Inheritance
 allows a class to inherit/extend properties and methods from another class, promoting code reuse as common attributes and methods can be defined in a superclass and shared by multiple subclasses. In Java, inheritance is achieved using the extends keyword.
 ```java
 class Person {
@@ -240,7 +232,7 @@ public class Main {
 
 ```
 
-## Encapsulation
+### Encapsulation
 is the concept of wrapping data (variables) and code (methods) together into a single unit, typically through classes. It restricts direct access to an object’s data by using private fields and provides public getter and setter methods to access and modify the data safely.
 ```java
 class BankAccount {
@@ -287,7 +279,7 @@ public class Main {
 
 ```
 
-## Summary
+### Summary
 | Principle      | Description                                                                                          | Code Example                             |
 |----------------|------------------------------------------------------------------------------------------------------|------------------------------------------|
 | **Abstraction**   | Hiding complex details and showing only essential features.                                         | `Vehicle` class and `start()` method     |
