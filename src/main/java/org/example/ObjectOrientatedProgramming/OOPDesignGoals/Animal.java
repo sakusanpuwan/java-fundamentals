@@ -1,7 +1,7 @@
-package org.example.ObjectOrientatedProgramming;
+package org.example.ObjectOrientatedProgramming.OOPDesignGoals;
 
 // Abstraction: Animal is an abstract concept
-public abstract class Animal implements Organism{
+public abstract class Animal implements Organism {
 
     // Encapsulation: Fields are private and accessed through getter and setter methods
     private String species;
@@ -14,9 +14,8 @@ public abstract class Animal implements Organism{
         this.age = age;
     }
 
-
     // Polymorphism: Method overriding
-    //Implementation of respire() from Organism interface
+    // Implementation of respire() from Organism interface
     @Override //Overrides method from a superclass or interface
     public void respire(){
         System.out.println(species + "is respiring");

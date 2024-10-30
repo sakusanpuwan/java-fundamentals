@@ -1,4 +1,4 @@
-package org.example.ObjectOrientatedProgramming;
+package org.example.ObjectOrientatedProgramming.ClassesObjects;
 
 public class POJO {
 

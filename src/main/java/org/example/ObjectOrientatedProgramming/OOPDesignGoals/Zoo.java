@@ -1,4 +1,4 @@
-package org.example.ObjectOrientatedProgramming;
+package org.example.ObjectOrientatedProgramming.OOPDesignGoals;
 
 import java.util.ArrayList;
 

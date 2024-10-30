@@ -1,4 +1,4 @@
-package org.example.ObjectOrientatedProgramming;
+package org.example.ObjectOrientatedProgramming.OOPDesignGoals;
 
 // Inheritance: Canidae is a subclass of Animal
 public class Canidae extends Animal{
