@@ -1,12 +1,21 @@
 package org.example;
 
+import org.example.CollectionsStreamsLambda.Employee;
+import org.example.CollectionsStreamsLambda.Streams;
 import org.example.Exceptions.CustomException;
 import org.example.Exceptions.Exceptions;
 import org.example.ObjectOrientatedProgramming.OOP;
 
+import java.util.List;
+
 public class Main {
     public static void main(String[] args) throws CustomException {
         System.out.println("Hello world!");
-        Exceptions.customException();
+        Streams streams = new Streams();
+
+        List<Employee> list = streams.sortEmployeeBySalary().stream().toList();
+
+        list.forEach(employee -> System.out.println("Name: " + employee.getName() + " Salary: " + employee.getSalary()));
+//        System.out.println(list.toString());
     }
 }

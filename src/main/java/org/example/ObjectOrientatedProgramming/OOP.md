@@ -34,30 +34,58 @@ To create a POJO a class must meet some requirements:
 POJOs that are used to facilitate communication between different parts of our application
 
 ## Interfaces
-Blueprint of a class. Collection of method declarations with no data and body - simply put it specifies what methods a class should have but no how they work.  
+Blueprint/Contract for a class. Collection of method declarations with no data and body - simply put it specifies what methods a class should have but no how they work.  
 
 No constructor and cannot be directly instantiated. When a class implements an interface it must implement all the methods declared in the interface.  
 
-Use when you want to define a contract or a set of behaviours that a class must implement
+* Use when you want to define a contract or a set of behaviours that a class must implement
+* Promotes loose coupling and testable systems
+* Achieves abstraction by defining behaviours without actually implementing them
+* Supports multiple inheritance as a single class can implement multiple interfaces
 ```java
 // Interface
 public interface Shape {
     void draw(); // Abstract method with no body
+    double area();
 } 
 
 // Concrete classes implementing the interface
 public class Circle implements Shape {
+    
+    private double radius;
+    
+    public Circle(double radius) {
+        this.radius = radius;
+    }
+    
     @Override
     public void draw() {
         System.out.println("Drawing a circle");
-    } 
+    }
+
+    @Override
+    public double area() {
+      return Math.PI * radius * radius;
+    }
 
 } 
 
 public class Square implements Shape {
+
+    private double side;
+  
+    public Square(double side) {
+      this.side = side;
+    }
+  
     @Override
     public void draw() {
         System.out.println("Drawing a square");
+    }
+
+    @Override
+    public double area() {
+      return side * side;
     }
 } 
 
@@ -67,9 +95,12 @@ public class Main {
 
         Shape shape1 = new Circle();
         shape1.draw(); // Output: Drawing a circle 
-      
+        System.out.println("Circle Area: " + shape1.area());
+
+
         Shape shape2 = new Square();
         shape2.draw(); // Output: Drawing a square
+        System.out.println("Square Area: " + shape2.area());
     }
 } 
 ```
@@ -79,6 +110,10 @@ Class that cannot be instantiated and serves as blueprints for its subclasses. M
 Classes that inherit from an abstract class can use these implemented methods directly or override them.
 
 Use when there's a common base implementation and share state for subclasses. Abstract classes can have both abstract and non-abstract methods, allowing you to define common functionality that can be inherited by subclasses
+
+* Promotes code reusability and maintainability
+* Provides a controlled way of enforcing behavior in subclasses
+* Supports partial implementation with default behaviors
 
 ```java
 // Example of an abstract class
@@ -167,11 +202,25 @@ public class Main {
 ### Polymorphism 
 allows objects to be treated as instances of their parent class. It enables one action to behave differently depending on the object that is performing it. This enables code to be written in a generic way that can handle different types of objects without the need for explicit type-checking.  
 
-Polymorphism can be achieved through method overriding (subclasses providing their own implementation of a method) and method overloading (multiple methods with the same name but different parameters)
+Polymorphism can be achieved through method overriding /runtime polymorphism (subclasses providing their own implementation of a method) and method overloading /compile-time polymorphism (multiple methods with the same name but different parameters)
+
+* Improves code flexibility by allowing different implementations of the same method
+* Reduces code duplication by allowing same method to handle different scenarios
+
 ```java
 class Animal {
+    // method overriding
     void sound() {
         System.out.println("Animal makes a sound");
+    }
+    
+    // method overloading
+    void hello(String name) {
+        System.out.println("Hi my name is " + name);
+    }
+
+    void hello(String name,int age) {
+      System.out.println("Hi my name is " + name + " and I'm " + age);
     }
 }
 
@@ -202,6 +251,10 @@ public class Main {
 
 ### Inheritance
 allows a class to inherit/extend properties and methods from another class, promoting code reuse as common attributes and methods can be defined in a superclass and shared by multiple subclasses. In Java, inheritance is achieved using the extends keyword.
+
+* Avoid redundant code by reusing common fields and methods
+* Establish hierarchical relationship between classes for better organisation
+
 ```java
 class Person {
     String name;
