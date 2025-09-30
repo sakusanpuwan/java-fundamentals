@@ -1,6 +1,5 @@
-package org.example.CollectionsStreamsLambda;
+package org.example.GenericsCollectionsStreamsLambda;
 
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -74,9 +73,6 @@ public class Streams {
                     else if (emp.getSalary() <= 100000) return "60,000 - 100,000";
                     else return "Above 100,000";
                 }));
-
         return groupedEmployees;
-
     }
-
 }

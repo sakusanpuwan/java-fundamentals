@@ -4,41 +4,60 @@ Streams allow you to perform operations like filtering, mapping, and reducing on
 
 - `.filter()` - remove elements from the Stream that don't match a predicate, returns a new Stream
 
+
 - `.map()` - transform elements in the Stream to another value, returns a new Stream
+
 
 - `.sorted()` - sort the elements in the Stream, returns a new Stream
 
+
 - `.distinct()` - remove duplicate elements from the Stream, returns a new Stream
+
 
 - `.limit()` - limit the number of elements in the Stream, returns a new Stream
 
+
 - `.skip()` - skip a number of elements in the Stream, returns a new Stream
+
 
 - `.flatMap()` - transform each element in the Stream to a Stream of elements, then flatten the Streams into a single Stream
 
+
 - `.forEach()` - perform an action on each element in the Stream, returns void
+
 
 - `.reduce()` - reduce the elements in the Stream to a single value, returns an Optional
 
+
 - `.anyMatch()` - check if any elements in the Stream match a predicate, returns a boolean
+
 
 - `.allMatch()` - check if all elements in the Stream match a predicate, returns a boolean
 
+
 - `.noneMatch()` - check if no elements in the Stream match a predicate, returns a boolean
+
 
 - `.findFirst()` - find the first element in the Stream, returns an Optional
 
-- `.findAny()` - find any element in the Stream, returns an Optional
+
+- `.findAny()` - find any element in the Stream, returns an Optional  
+
 
 - `.count()` - count the number of elements in the Stream, returns a long
 
+
 - `.min()` - find the minimum element in the Stream, returns an Optional
+
 
 - `.max()` - find the maximum element in the Stream, returns an Optional
 
+
 - `.collect()` - collect the elements in the Stream into a collection, returns a Collector  
 
+
 - `.groupingBy()` - group elements in the Stream by a classifier function, returns a Map
+
   ```java
   List<Country> countries = new ArrayList<>();
   countries.add(new Country("USA", "New York"));
@@ -51,14 +70,18 @@ Streams allow you to perform operations like filtering, mapping, and reducing on
   // Map<String, List<String>>
   // output: {USA=[New York, Los Angeles], UK=[London, Manchester]}
   ```
+
 - `.toList()` - collect the elements in the Stream into a List
+
   ```java
   .collect(Collectors.toList());
   ```
+
 - `.toSet()` - collect the elements in the Stream into a Set
-```java
-  .collect(Collectors.toSet());
-```
+
+  ```java
+    .collect(Collectors.toSet());
+  ```
 
 ```java
 import java.util.ArrayList;
@@ -134,4 +157,33 @@ Optional<Product> minWeightProduct = products.stream()
 // Find the product with maximum weight
 Optional<Product> maxWeightProduct = products.stream()
         .max(Comparator.comparing(Product::getWeight));
+
+// Streaming a map
+Map<String, Integer> ages = new HashMap<>();
+        ages.put("Alice", 30);
+        ages.put("Bob", 25);
+        ages.put("Charlie", 35);
+// Using entrySet() to iterate through the map
+        for (Map.Entry<String, Integer> entry : ages.entrySet()) {
+        System.out.println("Name: " + entry.getKey() + ", Age: " + entry.getValue());
+        }
+        // Using entrySet() and streams
+        ages.entrySet().stream()
+            .filter(entry -> entry.getValue() > 30)
+        .forEach(entry -> System.out.println("Name: " + entry.getKey()));
+        }
+        
+
+// Flat mapping
+List<List<String>> listOfLists = Arrays.asList(
+        Arrays.asList("a", "b"),
+        Arrays.asList("c", "d", "e"),
+        Arrays.asList("f")
+);
+
+List<String> flatList = listOfLists.stream()
+        .flatMap(List::stream) // Each inner list becomes a stream
+        .collect(Collectors.toList());
+
+        System.out.println(flatList); // Output: [a, b, c, d, e, f]
 ```

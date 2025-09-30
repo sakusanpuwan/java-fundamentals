@@ -4,6 +4,27 @@ Java is a popular, general-purpose **programming language** known for its **port
 
 ---
 
+## Programming Paradigms
+1. Object-Oriented Programming (OOP): Java emphasizes classes and
+   objects, with support for inheritance, encapsulation, polymorphism, and
+   abstraction.
+2. Imperative Programming: Java allows for programming with explicit
+   statements and commands to change program state, using constructs like
+   loops and conditionals.
+3. Procedural Programming: Java supports procedural code organization,
+   where functions or methods operate on data and control program flow.
+4. Concurrent Programming: Java provides built-in support for
+   multithreading and concurrency, using classes from the `java.util.concurrent`
+   package.
+5. Functional Programming: Introduced in Java 8, Java supports functional
+   programming with lambda expressions, the Stream API, and functional
+   interfaces.
+6. Generic Programming: Java enables type-safe operations on objects
+   through generics, allowing classes and methods to operate on specified
+   types.
+
+
+
 ## JRE (Java Runtime Environment)
 - **What it is**: The JRE is a part of the Java platform that allows you to **run** Java applications.
 - **Purpose**: It includes the **Java Virtual Machine (JVM)** and **core libraries** needed to execute Java code, but it does not include tools for compiling or developing Java programs.
@@ -21,6 +42,17 @@ Java is a popular, general-purpose **programming language** known for its **port
 2. **Compilation**: The `javac` compiler (part of the JDK) compiles this code into **bytecode** (`.class` files), which is platform-independent.
 3. **Execution by the JVM**: The JVM (within the JRE) **interprets** or **JIT-compiles** this bytecode to machine code specific to the operating system (Windows, Linux, etc.), making it platform-independent.
 
+## JAR (Java ARchive)
+is a package file format used to aggregate many Java class files, associated metadata, and resources (text, images, etc.) into one file for distribution. It's essentially a ZIP file with a .jar extension. 
+
+JAR files bundle up a complete Java application, library or collection of resources - making it easy to deploy Java apps to end-users in environments. JAR files can separate and organise code into different modules. 
+
+`C:\Users\sakus\Documents\Coding\java-fundamentals\target>jar tf java-fundamentals-1.0-SNAPSHOT.jar` - to view contents of JAR file
+
+Classpath environment variables tells JVM where to find classes and resources. It's a list of directories and JAR files. In Spring Boot, the classpath is auto managed by Maven. 
+To specify manually 
+- ENV variable - `CLASSPATH=.;C:\path\to\my\jars\* `
+- Command - `java -cp ".;C:\path\to\my\jars\*" com.example.MyMainClass`
 ---
 
 ## Statically Typed Language

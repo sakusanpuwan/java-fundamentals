@@ -30,5 +30,6 @@ public class OOP {
         Rectangle rectangle = new Rectangle(2,3);
         rectangle.draw();
         int area = rectangle.calculateArea();
+
     }
 }

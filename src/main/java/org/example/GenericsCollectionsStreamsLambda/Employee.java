@@ -1,4 +1,4 @@
-package org.example.CollectionsStreamsLambda;
+package org.example.GenericsCollectionsStreamsLambda;
 
 public class Employee {
 

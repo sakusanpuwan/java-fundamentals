@@ -1,27 +1,80 @@
-## Intro
-Object-oriented programming (OOP) is a programming paradigm that organizes code into objects, which are instances of classes.
+## Introduction
+Object-oriented programming (OOP) is a programming paradigm that organizes code into objects, 
+which are instances of classes.
+
+Although Java embraces OOP principles it is not a pure OOP language
+  - primitive types (`int`,`boolean`) aren't objects
+  - static members break encapsulation by not being tied to instances
+  - procedural constants like loops and conditionals fall outside object context
+  - no multi class inheritance - only allows single inheritance by extending (`extends`) or multi inheritance through implementing (`implements`) interface
+  - built in language level operators for primitives (`+,-,*,/`) and not via object methods (`.plus()`). Wrapper classes (`Integer`, `Double`) are objects and provide methods (`Integer.valueOf(5)`)
+
+Smalltalk, Ruby, Eiffel, Self, and Newspeak are examples of pure OOP languages.
+
 ## Classes & Objects
 - **Object** is an instance of a class
-- **Class** is a type of object and serves as the blueprint – defining the data which the object stores and the methods for accessing and manipulating the data 
+- **Class** is a type of object and serves as the blueprint – defining the data which the object stores 
+and the methods for accessing and manipulating the data 
 
 Class has:
 - Fields (variables) - represent the data associated with an object of a class
 - Methods (instructions) – called to perform actions and can take in arguments(defined) or parameters(undefined)
 
 **Modifiers**
-- Static modifier – its variable is associated with the class as a whole rather than an individual instance of that class e.g. an object
+- `static` modifier – its variable is associated with the class as a whole rather than an individual instance 
+of that class e.g. an object
 
-- Access control modifiers 
-  - public( accessible to all classes)
-  - private(accessible within the class only)
+- Access control modifiers - define visibility of classes, methods, constructors and fields
+
+  | Modifier      | Access Level    | Who Can Access                                           |
+  | ------------- | --------------- | -------------------------------------------------------- |
+  | **`public`**    | Most open       | Any class anywhere                                       |
+  | **`protected`** | Moderate        | Same package **and** subclasses (even in other packages) |
+  | *(default)*   | Package-private | Classes in the **same package** only                     |
+  | **`private`**   | Most restricted | Only within the same class                               |
+
 
 - Abstract modifier – Java will not allow an instance of an abstract class to be constructed without the abstract method
 
 - Final modifier – a variable that when declared final cannot be assigned a new value
 
-**Constructor** – a method used to initialise a newly created instance of a class. Each instance variable of the object is initialised. Cannot be static, abstract or final so only modifier applicable are those that affect visibility (public, private)
+**Constructor** – a method used to initialise a newly created instance of a class. 
+Each instance variable of the object is initialised. 
+Cannot be static, abstract or final so only modifier applicable are those that affect visibility (public, private)
 
-.this - to store the reference in a variable, to differentiate between the instance variable(outside method scope) and a local variable(within method scope) with the same name
+`.this` - to store the reference in a variable, to differentiate between the 
+instance variable(outside method scope) and a local variable(within method scope) with the same name
+
+```java
+public final class Address {
+    private final String city;
+    private final String street;
+
+    public Address(String city, String street) {
+        this.city = city;
+        this.street = street;
+    }
+
+    public String getCity() { return city; }
+    public String getStreet() { return street; }
+}
+
+```
+
+**Immutable Objects** - internal state cannot be modified after it's created. Locks state after creation.
+- `final` class - prevents subclassing so no child can add mutable behaviour
+- `private` and `final` fields - enforces encapsulation and ensures each field is assigned exactly once
+- no setters
+- defensive copies - If a field is a mutable object (like a `List`), return a copy from a getter or take a copy in the constructor.
+
+**Reference types** - refers to the declared type of the variable (the type written on the left side of a declaration)
+
+```java
+Animal a = new Dog();
+```
+
+Reference type - Animal  
+Object type - Dog
 
 #### POJO Plain Old Java Objects
 To create a POJO a class must meet some requirements:
@@ -104,12 +157,15 @@ public class Main {
     }
 } 
 ```
+
 ## Abstract
-Class that cannot be instantiated and serves as blueprints for its subclasses. May define methods without providing a body of implementation known as abstract methods like an interface class but unlike an interface may define fields and methods and how they work.  
+Class that cannot be instantiated and serves as blueprints for its subclasses. 
+May define methods without providing a body of implementation known as abstract methods like an interface class but unlike an interface may define fields and methods and how they work.  
 
 Classes that inherit from an abstract class can use these implemented methods directly or override them.
 
-Use when there's a common base implementation and share state for subclasses. Abstract classes can have both abstract and non-abstract methods, allowing you to define common functionality that can be inherited by subclasses
+Use when there's a common base implementation and share state for subclasses. 
+Abstract classes can have both abstract and non-abstract methods, allowing you to define common functionality that can be inherited by subclasses
 
 * Promotes code reusability and maintainability
 * Provides a controlled way of enforcing behavior in subclasses
@@ -158,12 +214,18 @@ public class Main {
     }
 } 
 ```
+
+**super()** - is a special call from a subclass constructor to its immediate superclass constructor. 
+Can be used to initialise fields in the superclass from a subclass of an abstract class
+
 ## Principles Of OOP
 ![OOP-Principles](https://github.com/user-attachments/assets/667948b8-d48c-4888-8d61-e7bf8658c31f)
 
 ### Abstraction
-process of simplifying complex systems by breaking them down into smaller, more manageable parts. Exposing only the essential features without needing to understand the underlying logic.  
-For example, when using car you're only exposed to wheel, pedals and buttons (the interface) without needing to understand how things work under the hood.  
+process of simplifying complex systems by breaking them down into smaller, more manageable parts. 
+Exposing only the essential features without needing to understand the underlying logic.  
+For example, when using car you're only exposed to wheel, pedals and buttons (the interface) 
+without needing to understand how things work under the hood.  
 Can achieve abstraction through abstract classes and interfaces
 ```java
 abstract class Vehicle {
@@ -200,9 +262,14 @@ public class Main {
 }
 ```
 ### Polymorphism 
-allows objects to be treated as instances of their parent class. It enables one action to behave differently depending on the object that is performing it. This enables code to be written in a generic way that can handle different types of objects without the need for explicit type-checking.  
+allows objects to be treated as instances of their parent class. 
+It enables one action to behave differently depending on the object that is performing it. 
+This enables code to be written in a generic way that can handle different types of objects 
+without the need for explicit type-checking.  
 
-Polymorphism can be achieved through method overriding /runtime polymorphism (subclasses providing their own implementation of a method) and method overloading /compile-time polymorphism (multiple methods with the same name but different parameters)
+Polymorphism can be achieved through method overriding /runtime polymorphism 
+(subclasses providing their own implementation of a method) and 
+method overloading /compile-time polymorphism (multiple methods with the same name but different parameters)
 
 * Improves code flexibility by allowing different implementations of the same method
 * Reduces code duplication by allowing same method to handle different scenarios
@@ -225,7 +292,7 @@ class Animal {
 }
 
 class Dog extends Animal {
-    @Override
+    @Override // Method overriding parent definition
     void sound() {
         System.out.println("Dog barks");
     }
@@ -249,11 +316,53 @@ public class Main {
 }
 ```
 
+**Dynamic Dispatch**
+- At compile time, the compiler checks that myDog.sound() is valid because Animal declares a sound() method.
+- At runtime, the JVM looks at the real object that myDog refers to.
+- It then dispatches the call to that object’s overriding implementation.
+
+Although both references myDog and myCat are type `Animal`, the JVM dispatches the call dynamically to the actual subclass method. 
+
+- Only instance methods that are overridden use dynamic dispatch.
+- Static (belong to class not instance), private (visible only within class), 
+and final(explicitly cannot be overriden) methods are bound at compile time (no overriding).
+- Field (instance variables) access (a.field) is resolved at compile time based on the reference type, not the object.
+
+```java
+List<String> list = new ArrayList<>();
+```
+  
+Reference type - `List<String>` - List is an interface - the contract subclasses can implement
+Object type - `new ArrayList<>()` - ArrayList is a concrete class that implements List
+
+The same `List` reference can point to objects of different classes that implement the `List` interface
+```java
+List<String> list;
+
+list = new ArrayList<>();
+list = new LinkedList<>();
+list = new Vector<>();
+```
+
+The compiler only knows `list` is a `List`. You can call methods guaranteed by `List` interface but the JVM at runtime
+will dispatch calls to the actual implementation. `.add()` will have different functionality based on which implementation is used.
+
+```java
+Animal a = new Dog();
+```
+Reference type: `Animal` (declared on the left)  
+Object (runtime) type: `Dog` (actual instance created with `new Dog()`)
+
+
+
 ### Inheritance
-allows a class to inherit/extend properties and methods from another class, promoting code reuse as common attributes and methods can be defined in a superclass and shared by multiple subclasses. In Java, inheritance is achieved using the extends keyword.
+allows a class to inherit/extend properties and methods from another class, promoting code reuse as common attributes 
+and methods can be defined in a superclass and shared by multiple subclasses. 
+In Java, inheritance is achieved using the `extends` keyword.
 
 * Avoid redundant code by reusing common fields and methods
 * Establish hierarchical relationship between classes for better organisation
+* Enables polymorphism where you can use a `Employee` where a `Person` is expected
 
 ```java
 class Person {
@@ -284,6 +393,43 @@ public class Main {
 }
 
 ```
+#### Composition vs Inheritance
+Inheritance creates an “is-a” relationship: a subclass is a specialized form of its parent.
+
+```java
+class Vehicle { void move() {} }
+class Car extends Vehicle { }
+```
+Car is a Vehicle.  
+Car automatically gets all Vehicle methods and fields.
+
+Despite it's advantages it has several drawbacks:  
+
+- Tight coupling - subclass is bound to parent's design
+- Fragile hierarchy - changing the superclass can break subclass
+- Single inheritance - only one direct superclass
+
+**Composition** models a “has-a” relationship: an object contains other objects and delegates work to them.
+
+```java
+class Engine { void start() {} }
+
+class Car {
+    private final Engine engine;      // Car *has an* Engine
+
+    Car(Engine engine) { this.engine = engine; }
+
+    void move() { engine.start(); }
+}
+```
+Car permanently has an Engine.  
+Car exposes only the behavior it wants, possibly wrapping or combining Engine methods.  
+Passing `Engine` into the constructor is dependency injection
+
+Advantages:  
+- Loose coupling - Car depends on the Engine interface/contract only not the actual implementation
+- Flexibility - Can swap out different Engine implementation without changing Car
+- Multi behaviour - Can include many components without single inheritance limit
 
 ### Encapsulation
 is the concept of wrapping data (variables) and code (methods) together into a single unit, typically through classes. It restricts direct access to an object’s data by using private fields and provides public getter and setter methods to access and modify the data safely.
@@ -339,3 +485,6 @@ public class Main {
 | **Polymorphism**  | Allowing actions to behave differently based on the object performing them (method overriding).     | `Animal` and `sound()` in `Dog` and `Cat` |
 | **Inheritance**   | Enabling classes to inherit properties and methods from other classes, promoting code reuse.        | `Person` and `Employee` relationship     |
 | **Encapsulation** | Restricting access to object data and methods, typically using private fields and public methods. | `BankAccount` with private `balance`     |
+
+
+```

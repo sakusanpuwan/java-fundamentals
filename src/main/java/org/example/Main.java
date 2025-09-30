@@ -1,10 +1,8 @@
 package org.example;
 
-import org.example.CollectionsStreamsLambda.Employee;
-import org.example.CollectionsStreamsLambda.Streams;
+import org.example.GenericsCollectionsStreamsLambda.Employee;
+import org.example.GenericsCollectionsStreamsLambda.Streams;
 import org.example.Exceptions.CustomException;
-import org.example.Exceptions.Exceptions;
-import org.example.ObjectOrientatedProgramming.OOP;
 
 import java.util.List;
 
