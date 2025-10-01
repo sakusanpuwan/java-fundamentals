@@ -15,6 +15,18 @@ list2.add("Hello");
 list2.add(123); // No error, but requires casting when retrieving
 ```
 
+**General Convention**
+
+| Symbol | Stands for   | Common Usage                                       |
+| ------ | ------------ | -------------------------------------------------- |
+| `T`    | **Type**     | General types (e.g., `Iterable<T>`)                |
+| `E`    | **Element**  | Collections/containers (e.g., `List<E>`, `Set<E>`) |
+| `K`    | **Key**      | Maps/dictionaries (e.g., `Map<K, V>`)              |
+| `V`    | **Value**    | Maps/dictionaries (e.g., `Map<K, V>`)              |
+| `N`    | **Number**   | Numeric types                                      |
+| `?`    | **Wildcard** | Unknown type (e.g., `List<?>`)                     |
+
+
 **Generic classes**
 ```java
 class Box<T> {

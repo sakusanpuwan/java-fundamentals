@@ -12,8 +12,18 @@ Although Java embraces OOP principles it is not a pure OOP language
 Smalltalk, Ruby, Eiffel, Self, and Newspeak are examples of pure OOP languages.
 
 ## Classes & Objects
-- **Object** is an instance of a class
-- **Class** is a type of object and serves as the blueprint – defining the data which the object stores 
+### Object 
+is an instance of a class.
+
+**Reference Comparison**
+The `==` operator checks for reference equality. It returns true if both variables point to the exact same object instance in memory
+
+**Value Comparison**
+Even if two objects contain the same value but are different instances, `==` will return false as they aren't the same reference.  
+Use `.equals()` to compare the content of the objects
+---
+### Class 
+is a type of object and serves as the blueprint – defining the data which the object stores 
 and the methods for accessing and manipulating the data 
 
 Class has:
@@ -38,9 +48,12 @@ of that class e.g. an object
 
 - Final modifier – a variable that when declared final cannot be assigned a new value
 
+--- 
 **Constructor** – a method used to initialise a newly created instance of a class. 
 Each instance variable of the object is initialised. 
-Cannot be static, abstract or final so only modifier applicable are those that affect visibility (public, private)
+Cannot be static, abstract or final so only modifier applicable are those that affect visibility (public, private).  
+Cannot return a value as they are meant to initialise an object by creating an instance of a class.  
+Absence of return type helps to distinguish constructors from methods.
 
 `.this` - to store the reference in a variable, to differentiate between the 
 instance variable(outside method scope) and a local variable(within method scope) with the same name
@@ -60,13 +73,14 @@ public final class Address {
 }
 
 ```
-
+---
 **Immutable Objects** - internal state cannot be modified after it's created. Locks state after creation.
 - `final` class - prevents subclassing so no child can add mutable behaviour
 - `private` and `final` fields - enforces encapsulation and ensures each field is assigned exactly once
 - no setters
 - defensive copies - If a field is a mutable object (like a `List`), return a copy from a getter or take a copy in the constructor.
 
+---
 **Reference types** - refers to the declared type of the variable (the type written on the left side of a declaration)
 
 ```java
@@ -76,6 +90,7 @@ Animal a = new Dog();
 Reference type - Animal  
 Object type - Dog
 
+---
 #### POJO Plain Old Java Objects
 To create a POJO a class must meet some requirements:
 - private properties
@@ -158,6 +173,132 @@ public class Main {
 } 
 ```
 
+**Nested Interface** - Interface within a Class
+Used when an interface is tightly coupled to its outer class, is often used for callbacks or helper contracts and not needed elsewhere. 
+The nested interface is implicitly static meaning an instance of the outer class is not needed to implement it. 
+
+```java
+public class Downloader {
+
+    // 1. Interface defined inside the Downloader class
+    public interface ProgressListener {
+        /**
+         * Called periodically to report download progress.
+         * @param bytesDownloaded The number of bytes downloaded so far.
+         * @param totalBytes The total size of the file.
+         */
+        void onProgress(long bytesDownloaded, long totalBytes);
+    }
+
+    private ProgressListener listener;
+
+    // Method to attach a listener
+    public void setProgressListener(ProgressListener listener) {
+        this.listener = listener;
+    }
+
+    public void downloadFile(String url) {
+        System.out.println("Starting download from: " + url);
+        long totalBytes = 1024; // Simulate a 1KB file
+
+        // Simulate the download process
+        for (long bytesDownloaded = 0; bytesDownloaded <= totalBytes; bytesDownloaded += 256) {
+            // Notify the listener if one is attached
+            if (listener != null) {
+                listener.onProgress(bytesDownloaded, totalBytes);
+            }
+            try {
+                Thread.sleep(500); // Pause to simulate download time
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }
+        System.out.println("Download complete.");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Downloader fileDownloader = new Downloader();
+
+        // Implement the nested interface to track progress by providing an implementation of onProgress().
+        fileDownloader.setProgressListener(new Downloader.ProgressListener() {
+            @Override
+            public void onProgress(long bytesDownloaded, long totalBytes) {
+                int percentage = (int) ((bytesDownloaded * 100) / totalBytes);
+                System.out.println("Download progress: " + percentage + "%");
+            }
+        });
+
+        fileDownloader.downloadFile("http://example.com/file.zip");
+    }
+}
+```
+
+**Nested Class**
+Used to grouped helper classes or data structures directly within the interface.  
+A class defined inside an interface is implicitly `public` and `static`.
+
+```java
+public interface EmailService {
+
+    // Method defined by the contract
+    void sendEmail(Email email);
+
+    // 2. Class defined inside the EmailService interface
+    // This is implicitly public and static.
+    class Email {
+        private final String to;
+        private final String subject;
+        private final String body;
+
+        public Email(String to, String subject, String String) {
+            this.to = to;
+            this.subject = subject;
+            this.body = String;
+        }
+
+        // Getters...
+        public String getTo() { return to; }
+        public String getSubject() { return subject; }
+        public String getBody() { return body; }
+
+        @Override
+        public String toString() {
+            return "Email to='" + to + "', subject='" + subject + "'";
+        }
+    }
+}
+
+// --- How to use it ---
+
+// A concrete implementation of the service
+class SmtpEmailService implements EmailService {
+    @Override
+    public void sendEmail(Email email) {
+        // In a real app, this would connect to an SMTP server
+        System.out.println("Sending email via SMTP: " + email);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        EmailService emailService = new SmtpEmailService();
+
+        // Create an instance of the nested Email class
+        EmailService.Email email = new EmailService.Email(
+            "customer@example.com",
+            "Your Order Confirmation",
+            "Thank you for your order..."
+        );
+
+        emailService.sendEmail(email);
+    }
+}
+```
+
+Interface cannot have constructors as they don't need to create instances of themselves. 
+
 ## Abstract
 Class that cannot be instantiated and serves as blueprints for its subclasses. 
 May define methods without providing a body of implementation known as abstract methods like an interface class but unlike an interface may define fields and methods and how they work.  
@@ -170,6 +311,8 @@ Abstract classes can have both abstract and non-abstract methods, allowing you t
 * Promotes code reusability and maintainability
 * Provides a controlled way of enforcing behavior in subclasses
 * Supports partial implementation with default behaviors
+
+An abstract class cannot be final as a final class cannot be extended and an abstract class cannot be used without extending to a concrete class.
 
 ```java
 // Example of an abstract class
@@ -216,7 +359,9 @@ public class Main {
 ```
 
 **super()** - is a special call from a subclass constructor to its immediate superclass constructor. 
-Can be used to initialise fields in the superclass from a subclass of an abstract class
+Can be used to initialise fields in the superclass from a subclass of an abstract class.  
+If you explicitly call super() in constructor then the no-argument constructor (if defined) of the superclass gets called.  
+If no explicit call then auto inserts a call to super() at the beginning of the constructor.
 
 ## Principles Of OOP
 ![OOP-Principles](https://github.com/user-attachments/assets/667948b8-d48c-4888-8d61-e7bf8658c31f)
@@ -316,6 +461,10 @@ public class Main {
 }
 ```
 
+`@Override`  
+Indicates that the method overrides a method in a superclass. If the method doesn't correlcty override the superclass
+, annotation helps to catch errors at compile time. 
+
 **Dynamic Dispatch**
 - At compile time, the compiler checks that myDog.sound() is valid because Animal declares a sound() method.
 - At runtime, the JVM looks at the real object that myDog refers to.
@@ -327,7 +476,73 @@ Although both references myDog and myCat are type `Animal`, the JVM dispatches t
 - Static (belong to class not instance), private (visible only within class), 
 and final(explicitly cannot be overriden) methods are bound at compile time (no overriding).
 - Field (instance variables) access (a.field) is resolved at compile time based on the reference type, not the object.
+- Constructors cannot be overriden as they are not inherited. Each class has its own constructor so they cannot be overriden.
+They can be overloaded within the same class based on parameters.
 
+**Method Hiding**
+```java
+class SuperClass {
+    // 1. A standard instance method
+    public void display() {
+        System.out.println("Method from SuperClass");
+    }
+
+    // 2. A static method
+    public static void staticDisplay() {
+        System.out.println("Static method from SuperClass");
+    }
+}
+
+class SubClass extends SuperClass {
+    // 1. Correctly overriding the instance method
+    @Override
+    public void display() {
+        System.out.println("OVERRIDDEN method from SubClass");
+    }
+
+    // 2. Hiding the static method (not overriding)
+    public static void staticDisplay() {
+        System.out.println("Static method from SubClass");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        // The reference type is SuperClass, but the actual object is SubClass.
+        SuperClass obj = new SubClass();
+
+        // --- DYNAMIC DISPATCH IN ACTION ---
+        // The JVM checks the actual object type (SubClass) at runtime.
+        // It finds an overridden `display()` method and calls it.
+        System.out.print("Calling obj.display(): ");
+        obj.display(); // OUTPUT: OVERRIDDEN method from SubClass
+
+        // --- STATIC BINDING ---
+        // The compiler sees the reference type (SuperClass) and binds the call
+        // to the static method in SuperClass at compile time based on reference type not to the object instance
+        System.out.print("Calling obj.staticDisplay(): ");
+        obj.staticDisplay(); // OUTPUT: Static method from SuperClass
+    }
+}
+```
+
+**Covariant Method Overriding**  
+Allows a method in a subclass to override a method in superclass to return a more specific type (a subtype of the original return type).
+```java
+public class Animal {
+    public Animal getAnimal() {
+        return new Animal();
+    }
+}
+
+public class Dog extends Animal {
+    // Covariant return type - Dog is a subclass of Animal
+  @Override
+  public Dog getAnimal() {
+      return new Dog();
+  }
+}
+```
 ```java
 List<String> list = new ArrayList<>();
 ```
