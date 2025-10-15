@@ -88,6 +88,14 @@ Queue<Float> queue = new LinkedList<>();
 Stack<Character> stack = new Stack<>();
 ```
 
+`()` parentheses are simply the constructor call by invoking the no - argument constructor of the class to create a new empty object.
+
+```java
+public Stack() {
+    super()
+}
+```
+
 <> tells the compiler to infer that the HashMap should be parameterized with <String, List<Integer>> based on the variable declaration.  
 
 **PECS Rule** - Producer Extends Consumer Super
