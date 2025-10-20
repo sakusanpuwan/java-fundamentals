@@ -76,6 +76,13 @@ but not for random access.
 ![LinkedList.png](../../../../resources/LinkedList.png)
 where tail pointer references last node
 
+`LinkedList` achieves polymorphism by acting as `List`, `Deque` and `Queue` using it's linked node structure
+and covering all necessary methods for each interface.
+
+`List` - supports insertions, deletions and access at any position, not as fast as `ArrayList` 
+`Deque` - supports operations at both ends for LIFO or FIFO data structure
+`Queue` - supports FIFO behaviour using `Deque` methods
+
 ### `ArrayList<E>` vs `LinkedList<E>`
 | Operation              | `ArrayList`        | `LinkedList`                           |
 | ---------------------- | ------------------ | -------------------------------------- |
@@ -86,6 +93,7 @@ where tail pointer references last node
 
 * Use `ArrayList` when you need fast random access and fewer insertions / deletions
 * Use `LinkedList` when you need lots of insertions / deletions at ends
+
 ---
 ### `Vector<E>`
 Is a dynamic array, part of the legacy collection classes. It grows automatically as elements are added similar to `ArrayList`.  
@@ -171,7 +179,7 @@ Does not guarantee ordering of all elements when iterating (for - loop) as you'r
 * `poll()` - `O(log n)`	- Root removed, last element moved to top, then “heapified down.”
 * `peek()` - `O(1)`	- Root is always at index 0.
 * `remove(Object o)` - `O(n)` - Must search entire heap array for object first.
-* c`ontains(Object o)` - `O(n)`	- Linear search through heap array.
+* `c ontains(Object o)` - `O(n)`	- Linear search through heap array.
 
 Natural Ordering
 ```java
@@ -264,16 +272,135 @@ Supports blocking operations:
 | Common use  | Simple queue | Priority scheduling | Both stack/queue        | Fast general-purpose queue | Multi-threaded producer-consumer |
 
 ---
+## `Set` 
+An interface that represents a collection of unique elements, which doesn't allow duplicates and no index based positional access.
+
+`.equals()` and `.hashCode()` define uniqueness
+* `.hashCode()` determines which "bucket" (array index) to check in the hash table. "Buckets" group together objects with possibly similar hash values
+* `.equals()` checks actual equality within the "bucket", another object may have the same hashcode but not be the same object.
+  * If `true` objects are considered true duplicates so new element will not be added
+  * If `false` they are different objects even if hash codes match
+
+### `HashSet`
+An implementation of the `Set` interface, backed by a `HashMap` where elements are stored as keys in an internal map
+
+```java
+Set<String> set = new HashSet<>();
+```
+
+For each element, `.hashCode()` determines which "bucket" it's stored in, when two elements have the same hash code `.equals()` is used to resolve equality.
+
+Order of elements is not guaranteed and duplicates are ignored. 
+
+* `add(E e)` 
+  * average `O(1)` - compute object's `hashCode()`, find the bucket index in internal array, add element to bucket. If each element hashes to a different bucket, insertion is constant time as no need to check through many elements.
+  * worst `O(n)` - if many elements hash to the same bucket (a collision), then insertion requires checking the whole list / tree to avoid duplicates
+* `remove(E e)`
+  * average `O(1)` - compute `hashCode()`, find bucket, use `.equals()` to find and unlink
+  * worst `O(n)` - if many elements share same hash code (bad hashing) the entire bucket (linked list or tree) has to be searched
+* `contains(E e)`
+  * average `O(1)`
+  * worst `O(n)`
+* `iteration` - `O(n)`
+
+---
+### `LinkedHashSet`
+Extends `HashSet` but maintains insertion order using a doubly linked list across all entries. 
+
+```java
+Set<String> set = new LinkedHashSet<>();
+```
+
+Internally the `LinkedHashSet` uses a `HashMap` but links elements in the order they were added, providing a predictable iteration order. 
+
+* `add(E e)` - same as `HashSet` and maintains order via linked list
+  * average `O(1)` 
+  * worst `O(n)`
+* `remove(E e)` - removes node from both hash table and linked list
+  * average `O(1)`
+  * worst `O(n)`
+* `contains(E e)` - hash lookup
+  * average `O(1)`
+  * worst `O(n)`
+* `iteration` - `O(n)` - maintains order but slightly slower than `HashSet`
+
+---
+### `SortedSet`
+Is an interface that maintains unique elements in sorted (ascending order) collection
+
+### `TreeSet`
+Implements `NavigableSet` (which extends `SortedSet`) and stores elements in a Red - Black Tree (self-balancing binary search tree)
+```css
+         [40 ⚫]
+        /      \
+    [20 🔴]    [60 🔴]
+    /   \      /   \
+ [10 ⚫] [30 ⚫][50 ⚫][70 ⚫]
+```
+
+
+```java
+Set<Integer> set = new TreeSet<>();
+```
+
+Elements are automatically sorted (natural or custom comparator based), maintaining logarithmic performance for basic operations. 
+
+* `add(E e)` - `O(log n)` - when you insert an element
+  * the `TreeSet` traverses the tree to find where the element fits (based on ordering)
+  * once the correct position is found, the element is inserted as a leaf node
+  * the Red - Black tree may restructure or recolor nodes to maintain balance
+
+[//]: # (TODO: Finish Treet Set notes)
+
+---
 ## `Map`
+Maps keys to values similar to a dictionary. Each key is unique maps to one value. It is not a subtype of `Collection`. 
+
+It allows null keys and values (except in `HashTable` and `TreeMap`). Provides key based access than index based. 
 
 ### `HashMap`
 A `HashMap` in Java is a data structure that implements the `Map` interface, providing a way to store key-value pairs. 
-It uses a hash table to store the map's entries, allowing for fast retrieval, insertion, and deletion operations.
 
-In a `HashMap`, the `hashCode()` method generates an integer hash code for each key, which is used to determine the bucket (a slot in the hash table) where the key-value pair is stored, allowing for efficient retrieval, insertion, and deletion operations.
+In a `HashMap`, the `hashCode()` method generates an integer hash code for each key, which is used to determine 
+the bucket (a slot in the hash table) where the key-value pair is stored, allowing for efficient retrieval, insertion, and deletion operations.
 
-Use `.get()` then perform a null check rather than `containsKey` then `get`.
-`Map` doesn't extend or implement the `Collection` interface.
+```sql
+Hash Table (array)
++---------------------------------------+
+| 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 |
++---------------------------------------+
+         |           |        |
+         ↓           ↓        ↓
+      Bucket 1    Bucket 3  Bucket 7
+       ("Bob")   ("Alice") ("Charlie")
+
+```
+
+* Allows one null key and multiple null values  
+* Not synchronised (not thread-safe)  
+* Order is not guaranteed
+* Use `.get()` then perform a null check rather than `containsKey` then `get`.
+* Bucket index = `hash % table.length`
+
+* `put()` - direct hash inert if the bucket is empty, if collision needs to traverse list/tree
+  * Average - `O(1)`
+  * Worst - `O(n)` - when many keys hash to the same bucket index (collide)
+* `get()` - direct hash lookup, if collision needs to traverse list/tree
+  * Average - `O(1)`
+  * Worst - `O(n)`
+* `remove()` - needs to traverse to find element in bucket
+  * Average - `O(1)`
+  * Worst - `O(n)`
+* `containsKey()` - Same as get
+* `iteration` - Must scan all entries
+  * Average - `O(n)`
+  * Worst - `O(n)`
+
+Uniform Hash Distribution - the keys are spread evenly across buckets. If the `hashCode()` function is good and the table
+has enough capacity then each bucket contains very few entries (<= 1) so functions `get()`,`put()`,`remove()`. 
+
+Since Java 8 : If a bucket’s linked list exceeds 8 elements, it converts to a Red-Black Tree,
+improving lookup and insertion from O(n) → O(log n) in those rare cases.
 
 ```java
 import java.util.HashMap;
@@ -366,6 +493,16 @@ for (Map.Entry<KeyType, ValueType> entry : map.entrySet()) {
 
 `map.forEach((id,product)) -> { System.out.println(id + " : " + product.getName()); }`// performs an action on each entry, returns void
 ```
+
+### `LinkedHashMap` 
+Extends `HashMap` but preserves insertion order by using a doubly - linked list along with hash table. 
+
+```java
+LinkedHashMap<Integer, String> map = new LinkedHashMap<>();
+```
+
+[//]: # (TODO: Add further notes on TreeMap, HashTable, ConcurrentHashMap)
+
 
 ### Empty Collections
 When you want to pass no values to a method that expects a collection.
