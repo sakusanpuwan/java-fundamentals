@@ -23,24 +23,36 @@ Java is a popular, general-purpose **programming language** known for its **port
    through generics, allowing classes and methods to operate on specified
    types.
 
-
-
-## JRE (Java Runtime Environment)
-- **What it is**: The JRE is a part of the Java platform that allows you to **run** Java applications.
-- **Purpose**: It includes the **Java Virtual Machine (JVM)** and **core libraries** needed to execute Java code, but it does not include tools for compiling or developing Java programs.
-- **Example use**: If you download a Java application to your computer, the JRE is what allows it to run.
+![JDK.png](src/main/resources/JDK.png)
 
 ## JDK (Java Development Kit)
 - **What it is**: The JDK is a full package for **developing** Java applications.
-- **Purpose**: It includes the JRE (to run Java programs) and also has tools like the **compiler (`javac`)**, which is used to compile Java code into bytecode.
+- **Purpose**: It includes the JRE (to run Java programs) and also has tools like the **compiler (`javac`)**, which is used to compile Java code into bytecode, **utilities** like jar and javadoc.
 - **Example use**: When you're writing Java code in an IDE (like IntelliJ IDEA or Eclipse), the JDK is required to compile and run the program.
 
+## JRE (Java Runtime Environment)
+- **What it is**: The JRE is a part of the Java platform that provides an environment to **run** Java applications.
+- **Purpose**: It includes the **Java Virtual Machine (JVM)** and **core libraries** needed to execute Java code, but it does not include tools for compiling, developing or debugging Java programs.
+- **Example use**: If you download a Java application to your computer, the JRE is what allows it to run.
+
+## JVM (Java Virtual Machine)
+- **What it is**: The core execution engine of Java. It converts bytecode into machine - specific instructions.
+- **Purpose** : Acts as the abstract machine that provides a runtime environment, handle tasks like memory management, garbage collection and execute code. 
+A Just-in-Time (JIT) compiler can also be used by the JVM to convert frequently used bytecode into faster native machine code.
 ---
 
 ## How Java Code Works
 1. **Write Java Code**: Java code is written in `.java` files as source code.
 2. **Compilation**: The `javac` compiler (part of the JDK) compiles this code into **bytecode** (`.class` files), which is platform-independent.
-3. **Execution by the JVM**: The JVM (within the JRE) **interprets** or **JIT-compiles** this bytecode to machine code specific to the operating system (Windows, Linux, etc.), making it platform-independent.
+3. **Execution by the JVM**: The JVM (within the JRE) **interprets** or **JIT-compiles** this bytecode to machine code ("binary") specific to the operating system (Windows, Linux, etc.), making it platform-independent.
+
+```java
+public static void main(String[] args) {
+   System.out.println("Hello World!");
+}
+```
+
+is the entry point of any Java application as it tells the JVM where to start executing the program. 
 
 ## JAR (Java ARchive)
 is a package file format used to aggregate many Java class files, associated metadata, and resources (text, images, etc.) into one file for distribution. It's essentially a ZIP file with a .jar extension. 

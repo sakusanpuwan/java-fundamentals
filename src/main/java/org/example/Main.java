@@ -1,7 +1,7 @@
 package org.example;
 
-import org.example.GenericsCollectionsStreamsLambda.Employee;
-import org.example.GenericsCollectionsStreamsLambda.Streams;
+import org.example.GenericsStreamsLambda.Employee;
+import org.example.GenericsStreamsLambda.Streams;
 import org.example.Exceptions.CustomException;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package org.example.GenericsCollectionsStreamsLambda;
+package org.example.GenericsStreamsLambda;
 
 import java.util.Comparator;
 import java.util.List;

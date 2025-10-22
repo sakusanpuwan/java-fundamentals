@@ -56,7 +56,9 @@ Cannot return a value as they are meant to initialise an object by creating an i
 Absence of return type helps to distinguish constructors from methods.
 
 `.this` - to store the reference in a variable, to differentiate between the 
-instance variable(outside method scope) and a local variable(within method scope) with the same name
+instance variable(outside method scope) and a local variable(within method scope) with the same name  
+
+**instance method** - belongs to an object and has access to `this` reference which points to current object instance  
 
 ```java
 public final class Address {
