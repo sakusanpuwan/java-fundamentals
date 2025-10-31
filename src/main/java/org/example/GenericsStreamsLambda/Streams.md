@@ -1,83 +1,81 @@
 ### Streams
-Streams are a new abstraction introduced in Java 8 that lets you process collections of objects in a functional way.  
+
+Streams are a new abstraction introduced in Java 8 that lets you process collections of objects in a functional way.
+
 Streams allow you to perform operations like filtering, mapping, and reducing on collections in a declarative way, without the need for explicit loops.
 
-- `.filter()` - remove elements from the Stream that don't match a predicate, returns a new Stream
+A Stream represents a sequence of elements and supports various operations that can be chained together to form a pipeline. Streams can be created from collections, arrays, or I/O channels. They do not store data themselves but operate on the source data.
 
+- Concise and readable code using functional programming concepts
+- Lazy evaluation for improved performance as operations are only executed when needed
+- Can be parallelized easily for multi-core processors
+- Reusable operations that can be combined in different ways like `map`, `filter`, `reduce`, etc.
+- Does not store data, but operate on data from a source
 
-- `.map()` - transform elements in the Stream to another value, returns a new Stream
+**Creation of Streams**
 
+- From Collection using `.stream()` or `.parallelStream()`
 
-- `.sorted()` - sort the elements in the Stream, returns a new Stream
+  ```java
+  List<String> list = Arrays.asList("A", "B", "C");
+  Stream<String> stream = list.stream();
+  ```
 
+- From Array using `Arrays.stream(array)`
 
-- `.distinct()` - remove duplicate elements from the Stream, returns a new Stream
+  ```java
+  String[] array = {"A", "B", "C"};
+  Stream<String> stream = Arrays.stream(array);
+  ```
 
+- From Values using `Stream.of()`
 
-- `.limit()` - limit the number of elements in the Stream, returns a new Stream
+  ```java
+  Stream<String> stream = Stream.of("A", "B", "C");
+  ```
 
+  **Common Stream Operations**
 
-- `.skip()` - skip a number of elements in the Stream, returns a new Stream
-
-
-- `.flatMap()` - transform each element in the Stream to a Stream of elements, then flatten the Streams into a single Stream
-
-
-- `.forEach()` - perform an action on each element in the Stream, returns void
-
-
-- `.reduce()` - reduce the elements in the Stream to a single value, returns an Optional
-
-
-- `.anyMatch()` - check if any elements in the Stream match a predicate, returns a boolean
-
-
-- `.allMatch()` - check if all elements in the Stream match a predicate, returns a boolean
-
-
-- `.noneMatch()` - check if no elements in the Stream match a predicate, returns a boolean
-
-
-- `.findFirst()` - find the first element in the Stream, returns an Optional
-
-
-- `.findAny()` - find any element in the Stream, returns an Optional  
-
-
-- `.count()` - count the number of elements in the Stream, returns a long
-
-
-- `.min()` - find the minimum element in the Stream, returns an Optional
-
-
-- `.max()` - find the maximum element in the Stream, returns an Optional
-
-
-- `.collect()` - collect the elements in the Stream into a collection, returns a Collector  
-
-
-- `.groupingBy()` - group elements in the Stream by a classifier function, returns a Map
+* `.filter()` - remove elements from the Stream that don't match a predicate, returns a new Stream
+* `.map()` - transform elements in the Stream to another value, returns a new Stream
+* `.sorted()` - sort the elements in the Stream, returns a new Stream
+* `.distinct()` - remove duplicate elements from the Stream, returns a new Stream
+* `.limit()` - limit the number of elements in the Stream, returns a new Stream
+* `.skip()` - skip a number of elements in the Stream, returns a new Stream
+* `.flatMap()` - transform each element in the Stream to a Stream of elements, then flatten the Streams into a single Stream
+* `.forEach()` - perform an action on each element in the Stream, returns void
+* `.reduce()` - reduce the elements in the Stream to a single value, returns an Optional
+* `.anyMatch()` - check if any elements in the Stream match a predicate, returns a boolean
+* `.allMatch()` - check if all elements in the Stream match a predicate, returns a boolean
+* `.noneMatch()` - check if no elements in the Stream match a predicate, returns a boolean
+* `.findFirst()` - find the first element in the Stream, returns an Optional
+* `.findAny()` - find any element in the Stream, returns an Optional
+* `.count()` - count the number of elements in the Stream, returns a long
+* `.min()` - find the minimum element in the Stream, returns an Optional
+* `.max()` - find the maximum element in the Stream, returns an Optional
+* `.collect()` - collect the elements in the Stream into a collection, returns a Collector
+* `.groupingBy()` - group elements in the Stream by a classifier function, returns a Map
 
   ```java
   List<Country> countries = new ArrayList<>();
   countries.add(new Country("USA", "New York"));
-  countries.add(new Country("USA", "Los Angeles")); 
+  countries.add(new Country("USA", "Los Angeles"));
   countries.add(new Country("UK", "London"));
-  countries.add(new Country("UK", "Manchester"));   
-  
+  countries.add(new Country("UK", "Manchester"));
+
   countries.stream()
   .collect(Collectors.groupingBy(Country::cities));
   // Map<String, List<String>>
   // output: {USA=[New York, Los Angeles], UK=[London, Manchester]}
   ```
 
-- `.toList()` - collect the elements in the Stream into a List
+* `.toList()` - collect the elements in the Stream into a List
 
   ```java
   .collect(Collectors.toList());
   ```
 
-- `.toSet()` - collect the elements in the Stream into a Set
+* `.toSet()` - collect the elements in the Stream into a Set
 
   ```java
     .collect(Collectors.toSet());
@@ -172,7 +170,7 @@ Map<String, Integer> ages = new HashMap<>();
             .filter(entry -> entry.getValue() > 30)
         .forEach(entry -> System.out.println("Name: " + entry.getKey()));
         }
-        
+
 
 // Flat mapping
 List<List<String>> listOfLists = Arrays.asList(
@@ -187,3 +185,15 @@ List<String> flatList = listOfLists.stream()
 
         System.out.println(flatList); // Output: [a, b, c, d, e, f]
 ```
+
+**Parallel Streams**
+Parallel streams allow you to process data in parallel, leveraging multiple CPU cores for improved performance on large datasets. You can create a parallel stream by calling `.parallelStream()` on a collection or by converting an existing stream to a parallel stream using `.parallel()`.
+
+```java
+List<String> list = Arrays.asList("A", "B", "C");
+Stream<String> parallelStream = list.parallelStream();
+// or
+Stream<String> parallelStream2 = list.stream().parallel();
+```
+
+When using parallel streams, the stream operations are divided into multiple sub-tasks that can be executed concurrently. The results are then combined to produce the final output. However, be cautious when using parallel streams, as they may introduce overhead and complexity, especially when dealing with shared mutable state or non-thread-safe operations.
