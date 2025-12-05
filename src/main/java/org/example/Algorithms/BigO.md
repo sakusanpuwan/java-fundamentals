@@ -8,7 +8,13 @@
 
 **Complexity Analysis**: The measure of how the resource requirements of an algorithm grow as the input size increases. It helps in understanding the efficiency and scalability of algorithms.
 
-**Time Complexity**: A way to express the amount of time (usually the worst-case) an algorithm takes to complete as a function of the length of the input. It is often expressed using Big O notation.
+**Time Complexity**: A way to express the rate at which the time, required to execute the algorithm, changes with respect to the input size. It is often expressed using Big O notation.
+
+Omega (Ω) notation - best-case scenario  
+Theta (Θ) notation - average-case scenario
+Omicron (O) notation - worst-case scenario
+
+**Space Complexity**: A way to express the rate at which the memory, required to execute the algorithm, changes with respect to the input size. It is also expressed using Big O notation.
 
 ## Big O Notation
 

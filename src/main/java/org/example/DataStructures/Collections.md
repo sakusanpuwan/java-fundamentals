@@ -68,6 +68,8 @@ An ordered collection (sequence) of elements
 A resizable-array implementation of `List`, used best for random access operations such as fast lookups
 and fewer inserts/deletes in the middle. Elements are stored contiguously (connected without a break) in memory.
 
+`ArrayList<E> arrayList = new ArrayList<>();`
+
 - `get(int index)` → `O(1)`
 - `set(int index, E e)` → `O(1)`
 - `add(E e)` → Amortized `O(1)`
@@ -75,6 +77,7 @@ and fewer inserts/deletes in the middle. Elements are stored contiguously (conne
   - Best Case: remove last element = no shift needed = `O(1)`
   - Worst Case: remove first element = shift all `n-1` elements to left = `O(n)`
   - Average: `n/2` shifts -> `O(n)` (drop constants to simplify in Big - O)
+- `indexOf(Object o)` → `O(n)` - linear search from start to find first occurrence
 
 ---
 
@@ -82,7 +85,9 @@ and fewer inserts/deletes in the middle. Elements are stored contiguously (conne
 
 A doubly-linked (each node has 2 references previous & next) list implementation of `List` (also `Deque`) used best for frequent insertions and deletions.  
 Each node has reference to its previous and next node. Elements are not stored contiguously making it great for inserts / deletions
-but not for random access.
+but not for random access. (Picture a train where each carriage points to the one before and after it)
+
+`LinkedList<E> linkedList = new LinkedList<>();`
 
 - `get(int index)` → `O(n)` - to access element at index `i`, must traverse node by node till index `i` is reached then need to update pointers (prev/next)
 - `add/remove at ends` → `O(1)` - directly access head (first) or tail (last) node reference with no bulk shifting like `ArrayList`
@@ -109,6 +114,21 @@ and covering all necessary methods for each interface.
 
 - Use `ArrayList` when you need fast random access and fewer insertions / deletions
 - Use `LinkedList` when you need lots of insertions / deletions at ends
+
+**Single Linked List** - each node has only a reference to the next node, not previous.
+![alt text](../../../../resources/SingleLinkedList.png)
+![alt text](../../../../resources/SinglyLinkedList1.png)
+
+**Double Linked List** - each node has references to both previous and next nodes.
+![alt text](../../../../resources/DoubleLinkedList.png)
+![alt text](../../../../resources/DoubleLinkedList1.png)
+
+**Circular Linked List** - last node points back to first node forming a circle.
+![alt text](../../../../resources/CircularLinkedList.png)
+![alt text](../../../../resources/CircularSinglyLinkedList.png)
+
+**Circular Doubly Linked List** - last node points to first and first points back to last.
+![alt text](../../../../resources/CircularDoublyLinkedList.png)
 
 ---
 

@@ -1,16 +1,16 @@
 # Arrays
 
-A linear data structure that allows multiple values of the same type to be stored. `Arrays` is a utility class that extends `Object`.
+A linear data structure that consists of a collection of elements allowing multiple values of the same type (Homogeneous) to be stored, each identified by an index. `Arrays` is a utility class that extends `Object`.
 
 - Store Primitives and Objects: Java arrays can hold both primitive types (like int, char, boolean, etc.) and objects (like String, Integer, etc.)
-- Contiguous Memory Allocation When we use arrays of primitive types, the elements are stored in contiguous locations. For non primitive types, references of items are stored at contiguous locations.
+- Contiguous Memory Allocation When we use arrays of primitive types, the elements are stored in contiguous (adjacent) memory locations. For non primitive types, references of items are stored at contiguous memory locations.
 - Zero-based Indexing: The first element of the array is at index 0.
-- Fixed Length: After creating an array, its size is fixed; we can not change it.
+- Fixed Length: After creating an array, its size is fixed; we can not change it as it is allocated in memory.
 
 ![PrimitiveArray.png](../../../../resources/PrimitiveArray.png)
 ![NonPrimitiveArray.png](../../../../resources/NonPrimitiveArray.png)
 
-**Declaring an Array**
+**Declaring an Array** - creates a reference variable for an array
 
 ```java
 int arr[];
@@ -18,20 +18,32 @@ int arr[];
 
 Just tells compiler this variable `arr` will hold an array of integers
 
-**Initialisation of an Array**
+**Instantiation of an Array** - allocates contiguous memory for the array in the heap
 
 ```java
 int arr[] = new int[size];
 ```
 
-Reference of an array is created with `new`, JVM allocates memory for an array of a given `size` in the heap.
+Reference of an array is created with `new`, JVM allocates contigous cells in memory for an array of a given `size` in the heap.
 
 The array size is dynamically allocated (decided at runtime not compile time) but statically fixed (cannot be changed).
+
+**Initialising an Array** - assigning values to the array elements
+
+```java
+arr[0] = 10;
+```
 
 **Declare and Initialise**
 
 ```java
 int intArr[] = { 10, 20, 15, 22, 35 };
+```
+
+**Inline Declaration, Instantiation and Initialization**
+
+```java
+return new int[] { 10, 20, 15, 22, 35 };
 ```
 
 **Multidimensional Array**
@@ -52,6 +64,7 @@ int[][] arr = { { 1, 2 }, { 3, 4 } };
 - `Arrays.binarySearch()` - `O(log(n))` - searches for element in a sorted array using binary search
 - `Arrays.equals()` - `O(n)` - must compare each element in array
 - `Arrays.sort()` - `O(nlog(n))` - sorts an array in ascending order
+- `Arrays.toString()` - converts array to string representation
 
 | Operation       | Complexity          | Why                    |
 | --------------- | ------------------- | ---------------------- |
@@ -113,4 +126,33 @@ int[] copy = Arrays.copyOf(original, original.length);
 int[] arr1 = {1, 2, 3};
 int[] arr2 = {1, 2, 3};
 boolean areEqual = Arrays.equals(arr1, arr2); // true
+```
+
+---
+
+**Traversing Arrays**
+
+```java
+int[][] arr = {{1, 2, 3}, {4, 5, 6}};
+
+for (int i = 0; i < arr.length; i++) {
+    for (int j = 0; j < arr[i].length; j++) {
+        System.out.print(arr[i][j] + " ");
+    }
+    System.out.println();
+}
+```
+
+**Traversing Arrays Without Repeated Comparisons**
+
+```java
+for (int i = 0; i < intArray.length; i++) {
+    for (int j = i + 1; j < intArray.length; j++) {
+```
+
+**Convert ArrayList to Array**
+
+```java
+ArrayList<Integer> list = new ArrayList<>();
+Integer[] arr = list.stream().mapToInt(Integer::intValue).toArray()
 ```
