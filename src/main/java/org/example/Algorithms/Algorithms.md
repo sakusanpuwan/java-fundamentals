@@ -73,6 +73,15 @@ int number = 12345;
 int newNumber = removeLastDigit(number); // newNumber will be 1234
 ```
 
+### Sum of series
+The sum of the first `n` natural numbers can be calculated using the formula:
+
+```java
+int sumOfSeries(int n) {
+    return n * (n + 1) / 2; // Formula for the sum of first n natural numbers
+}
+```
+
 ## Arrays
 
 ### Traversal
@@ -677,7 +686,64 @@ void swap(int[] array, int i, int j) {
     array[i] = array[j];
     array[j] = temp;
 }
+```
 
+## Searching Patterns
+### Binary Search
+An efficient algorithm for finding a target value within a sorted array. It works by repeatedly dividing the search interval in half, eliminating half of the remaining elements from consideration until the target is found or the interval is empty.
+
+```java
+int binarySearch(int[] arr, int target) {
+    int left = 0;
+    int right = arr.length - 1;
+
+    while (left <= right) { // Continue till pointers do not cross
+        int mid = left + (right - left) / 2; // To avoid potential overflow
+
+        if (arr[mid] == target) {
+            return mid; // Target found
+        } else if (arr[mid] < target) {
+            left = mid + 1; // Search in the right half
+        } else {
+            right = mid - 1; // Search in the left half
+        }
+    }
+    return -1; // Target not found
+}
+``` 
+
+`int mid = left + (right - left) / 2;` is used instead of `int mid = (left + right) / 2;` to prevent potential integer overflow when `left` and `right` are large values. By calculating the difference `(right - left)` first, we ensure that the sum does not exceed the maximum value for integers.
+
+```java
+int[] arr = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+int index = Array.binarySearch(arr, 5); // index will be 4
+``` 
+
+| Condition            | Meaning       | Action                 |
+| -------------------- | ------------- | ---------------------- |
+| `arr[mid] < target`  | mid too small | move `left = mid + 1`  |
+| `arr[mid] > target`  | mid too big   | move `right = mid - 1` |
+| `arr[mid] == target` | found         | return                 |
+
+Lower Bound and Upper Bound variations can be implemented by adjusting the conditions for moving the `left` and `right` pointers.
+
+**Lower Bound** is the first occurrence of the target value `arr[i] >= x`.
+```java
+if (arr[mid] >= target)
+    index = mid; // potential lower bound
+    right = mid - 1; // try smaller indices
+else
+    left = mid + 1;
+```
+
+**Upper Bound** is the first occurrence of a value greater than the target `arr[i] > x`.
+```java
+if (arr[mid] > target)
+    index = mid; // potential upper bound
+    right = mid - 1; // move left & try smaller indexes
+else
+    left = mid + 1; // arr[mid] <= target, move right   
+```
 ### Sorting-Based Tricks
 
 ### Sweep Line Patterns
