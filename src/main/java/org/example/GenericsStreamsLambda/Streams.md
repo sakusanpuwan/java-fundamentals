@@ -12,9 +12,16 @@ A Stream represents a sequence of elements and supports various operations that 
 - Reusable operations that can be combined in different ways like `map`, `filter`, `reduce`, etc.
 - Does not store data, but operate on data from a source
 
+General pattern of Stream operations:
+```
+source.stream()
+      .intermediate operations...
+      .terminal operation...
+```
+
 **Creation of Streams**
 
-- From Collection using `.stream()` or `.parallelStream()`
+- From Collection (`List`, `Set`, etc.) using `.stream()` or `.parallelStream()`
 
   ```java
   List<String> list = Arrays.asList("A", "B", "C");
@@ -34,7 +41,40 @@ A Stream represents a sequence of elements and supports various operations that 
   Stream<String> stream = Stream.of("A", "B", "C");
   ```
 
-  **Common Stream Operations**
+- From a Map
+  ```java 
+  map.keySet().stream()
+  map.values().stream()
+  map.entrySet().stream()
+   ```
+**Common Stream Data Structure Conversions**
+* `.toArray()` - convert Stream to array
+
+  ```java
+  Object[] array = stream.toArray();
+  ```
+* `.collect()` - convert Stream to Collection (List, Set, etc.)
+
+  ```java
+  List<String> list = stream.collect(Collectors.toList());
+  Set<String> set = stream.collect(Collectors.toSet());
+  ```
+* Array to List 
+  ```java
+  List<String> list = Arrays.stream(array).collect(Collectors.toList());
+  ```
+* List to Array
+  ```java
+  String[] array = list.stream().toArray(String[]::new);
+  ```
+* Map to List of Keys or Values
+  ```java
+  List<KeyType> keys = map.keySet().stream().collect(Collectors.toList());
+  List<ValueType> values = map.values().stream().collect(Collectors.toList());
+  List<Map.Entry<KeyType, ValueType>> entries = map.entrySet().stream().collect(Collectors.toList());
+  ```
+
+**Common Stream Operations**
 
 * `.filter()` - remove elements from the Stream that don't match a predicate, returns a new Stream
 * `.map()` - transform elements in the Stream to another value, returns a new Stream
@@ -197,3 +237,51 @@ Stream<String> parallelStream2 = list.stream().parallel();
 ```
 
 When using parallel streams, the stream operations are divided into multiple sub-tasks that can be executed concurrently. The results are then combined to produce the final output. However, be cautious when using parallel streams, as they may introduce overhead and complexity, especially when dealing with shared mutable state or non-thread-safe operations.
+
+**Sorting with Streams**
+- Natural ordering
+
+  ```java
+  List<String> sortedList = list.stream()
+          .sorted()
+          .collect(Collectors.toList());
+  ```
+- Reverse order
+
+  ```java
+  List<String> reverseSortedList = list.stream()
+          .sorted(Comparator.reverseOrder())
+          .collect(Collectors.toList());
+  ```
+- Custom comparator
+
+  ```java
+  List<String> customSortedList = list.stream()
+          .sorted(Comparator.comparing(String::length))
+          .collect(Collectors.toList());
+  ```
+
+  ```java
+  .sorted(Comparator.comparing(Person::getAge).reversed())
+  ```
+- Sort Map by Keys
+
+  ```java
+  Map.Entry.<String, Integer> sortedByKey = map.entrySet()
+          .stream()
+          .sorted(Map.Entry.comparingByKey())
+  ```
+
+  ```java
+  Map.Entry.<String, Integer> sortedByKeyDesc = map.entrySet()
+        .stream()
+        .sorted(Map.Entry.comparingByKey(Comparator.reverseOrder()))
+  ```
+- Multi-level sorting
+
+  ```java
+  List<Person> sortedPeople = people.stream()
+          .sorted(Comparator.comparing(Person::getAge)
+          .thenComparing(Person::getName))
+          .collect(Collectors.toList());
+  ```

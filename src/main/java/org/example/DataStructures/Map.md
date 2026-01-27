@@ -99,6 +99,13 @@ HashMap<String, Integer> map = new HashMap<>();
 
 map.put(key1, value1); // Adding elements to the HashMap 
 
+Map<String, Integer> map = new HashMap<>(Map.ofEntries(
+    Map.entry("a", 1),
+    Map.entry("b", 2),
+    Map.entry("c", 3)
+));
+
+
 ValueType value = map.get(key); // Retrieving values based on keys 
 
 
@@ -120,7 +127,12 @@ Set<KeyType> keySet = map.keySet(); // Getting a Set of keys in the HashMap
 
 Collection<ValueType> values = map.values(); // Getting a Collection of values in the HashMap
 
+List<KeyType> keys = new ArrayList<>(map.keySet()); // Converting keys to a List
 
+List<ValueType> vals = new ArrayList<>(map.values()); // Converting values to a List
+```
+
+```java
 // Iterating over the entries in the HashMap using a for-each loop 
 
 for (Map.Entry<KeyType, ValueType> entry : map.entrySet()) {
@@ -131,6 +143,17 @@ for (Map.Entry<KeyType, ValueType> entry : map.entrySet()) {
     // Perform operations on key-value pairs 
 
 }
+```
+
+```java
+// Stream
+List<Map.Entry<String, Integer>> entryList = map.entrySet()
+        .stream()
+        .filter(entry -> entry.getValue() > 10)
+        .collect(Collectors.toList());
+```
+
+```java
 
 `map.put()` // puts a key-value pair in the map, returns the old value or null if the key was not present
 

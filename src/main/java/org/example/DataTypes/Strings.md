@@ -118,7 +118,9 @@ boolean containsChar = str.contains(Character.toString(char)); //Check if string
 
 char[] charArray = str.toCharArray(); // Convert into character array
 
-boolean IsEmpty = str.IsEmpty(); // Check for empty String
+String newStr = String.valueOf(charArray); // Convert char array back to string
+
+boolean IsEmpty = str.isEmpty(); // Check for empty String
 
 boolean endsWith = str.endsWith("value"); // Checks if string ends with the given suffix
 
@@ -379,3 +381,12 @@ Matcher m17 = Pattern.compile("\\Bcat\\B").matcher("scat category");
 while (m17.find()) {
     System.out.println(m17.group()); // cat (from scat, category)
 ```
+
+**Character Array**
+```java
+int[] charCount = new int[256]; // ASCII character set
+for (int i = 0; i < str.length(); i++) {
+    charCount[str.charAt(i)]++;
+}
+```
+

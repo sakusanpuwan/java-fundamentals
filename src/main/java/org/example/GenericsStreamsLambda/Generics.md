@@ -105,10 +105,10 @@ public Stack() {
 
 **PECS Rule** - Producer Extends Consumer Super
 
-| Situation                    | Wildcard Syntax |                Reason                 | Boundary    |
-| ---------------------------- | --------------- | :-----------------------------------: | ----------- | --- |
-| Producer (read `get` items)  | `? extends T`   |  Collection produces `T` or subtypes  | Upper Bound |
-| Consumer (write `add` items) | `? super T`     | Collection consumes `T` or supertypes | Lower Bound |     |
+| Situation                    | Wildcard Syntax | Reason                                | Boundary    |
+| ---------------------------- | --------------- | ------------------------------------- | ----------- |
+| Producer (read `get` items)  | `? extends T`   | Collection produces `T` or subtypes   | Upper Bound |
+| Consumer (write `add` items) | `? super T`     | Collection consumes `T` or supertypes | Lower Bound |
 
 **Producer Extends** - Wildcard ? extends Number so is safe to read as Number but not to write Integer, Double etc. all can extend Number.
 

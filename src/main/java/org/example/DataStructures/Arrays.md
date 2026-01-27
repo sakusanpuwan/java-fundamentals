@@ -156,3 +156,73 @@ for (int i = 0; i < intArray.length; i++) {
 ArrayList<Integer> list = new ArrayList<>();
 Integer[] arr = list.stream().mapToInt(Integer::intValue).toArray()
 ```
+
+**Sorting Arrays**
+
+```java
+arr.sort((a, b) -> {...});
+```
+
+This is a custom comparator function to define the sorting order.  
+
+The comparator should return:
+- A negative integer if `a` comes before `b`
+- Zero if `a` and `b` are considered equal in order
+- A positive integer if `a` comes after `b`
+
+So the function answers the question: Should `a` be placed before or after `b` in the sorted order?
+
+Elements like `Integer`, `String`, etc. have natural ordering and already implement `Comparable`, so you can use:
+
+```java
+arr.sort((a, b) -> a.compareTo(b));
+```
+
+or 
+
+```java
+arr.sort(Comparator.naturalOrder());
+```
+
+For reverse order:
+
+```java
+arr.sort((a, b) -> b.compareTo(a));
+```
+
+or
+
+```java
+arr.sort(Comparator.reverseOrder());
+```
+
+For mulitple level sorting:
+
+```java
+people.sort((a, b) -> {
+    int ageCmp = Integer.compare(a.getAge(), b.getAge());
+    if (ageCmp != 0) { // ages aren't equal
+        return ageCmp; // return age comparison
+    } else {
+        return a.getName().compareTo(b.getName()); // if age equal, compare names
+    }
+})
+```
+
+or more concisely with `thenComparing`:
+
+```java
+people.sort(Comparator.comparing(Person::getAge)
+    .reversed()
+    .thenComparing(Person::getName));
+```
+
+| Goal               | Example                             |
+| ------------------ | ----------------------------------- |
+| Natural            | `sort(Comparator.naturalOrder())`   |
+| Descending         | `sort(Comparator.reverseOrder())`   |
+| By field           | `sort(comparing(p -> p.age))`       |
+| By computed        | `sort(comparing(s -> s.length()))`  |
+| Multi-level        | `.thenComparing(...)`               |
+| With nulls         | `nullsFirst(...)`                   |
+| With frequency map | custom comparator like your example |
