@@ -96,6 +96,7 @@ source.stream()
 * `.collect()` - collect the elements in the Stream into a collection, returns a Collector
 * `.groupingBy()` - group elements in the Stream by a classifier function, returns a Map
 
+
   ```java
   List<Country> countries = new ArrayList<>();
   countries.add(new Country("USA", "New York"));
@@ -120,6 +121,18 @@ source.stream()
   ```java
     .collect(Collectors.toSet());
   ```
+| Operation          | Example Code                                                    | Output                                                |
+| ------------------ | --------------------------------------------------------------- | ----------------------------------------------------- |
+| **`toList()`**     | `nums.stream().filter(n -> n > 2).toList();`                    | `[3, 4, 5]`                                           |
+| **`collect(...)`** | `nums.stream().collect(Collectors.toCollection(TreeSet::new));` | `[1, 3, 4, 5]` *(TreeSet removes duplicates + sorts)* |
+| **`forEach()`**    | `nums.stream().forEach(System.out::print);`                     | `31415` *(printed to console)*                        |
+| **`reduce()`**     | `nums.stream().reduce(0, Integer::sum);`                        | `14`                                                  |
+| **`anyMatch()`**   | `nums.stream().anyMatch(n -> n == 5);`                          | `true`                                                |
+| **`allMatch()`**   | `nums.stream().allMatch(n -> n > 0);`                           | `true`                                                |
+| **`findFirst()`**  | `nums.stream().filter(n -> n > 2).findFirst();`                 | `Optional[3]`                                         |
+| **`max()`**        | `nums.stream().max(Integer::compareTo);`                        | `Optional[5]`                                         |
+| **`min()`**        | `nums.stream().min(Integer::compareTo);`                        | `Optional[1]`                                         |
+| **`count()`**      | `nums.stream().filter(n -> n == 1).count();`                    | `2`                                                   |
 
 ```java
 import java.util.ArrayList;
