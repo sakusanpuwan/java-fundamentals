@@ -298,3 +298,19 @@ When using parallel streams, the stream operations are divided into multiple sub
           .thenComparing(Person::getName))
           .collect(Collectors.toList());
   ```
+
+- Sort Map by Values
+
+  ```java
+  List<Map.Entry.<String, Integer>> sortedByValue = map.entrySet()
+          .stream()
+          .sorted(Map.Entry.comparingByValue())
+          .toList();
+  ```
+
+  ```java
+  List<Map.Entry.<String, Integer>> sortedByValueDesc = map.entrySet()
+        .stream()
+        .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+        .toList();
+  ```

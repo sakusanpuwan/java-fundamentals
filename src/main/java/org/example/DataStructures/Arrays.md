@@ -160,6 +160,18 @@ Integer[] arr = list.stream().mapToInt(Integer::intValue).toArray()
 **Sorting Arrays**
 
 ```java
+Arrays.sort(arr);
+```
+
+```java
+String[] arr = {"banana", "apple", "orange"};
+
+Arrays.sort(arr, Comparator.comparing(String::length));
+```
+
+**Sorting ArrayLists**
+
+```java
 arr.sort((a, b) -> {...});
 ```
 
@@ -221,7 +233,7 @@ people.sort(Comparator.comparing(Person::getAge)
 | ------------------ | ----------------------------------- |
 | Natural            | `sort(Comparator.naturalOrder())`   |
 | Descending         | `sort(Comparator.reverseOrder())`   |
-| By field           | `sort(comparing(p -> p.age))`       |
+| By field           | `sort(comparing(String::length))`       |
 | By computed        | `sort(comparing(s -> s.length()))`  |
 | Multi-level        | `.thenComparing(...)`               |
 | With nulls         | `nullsFirst(...)`                   |
