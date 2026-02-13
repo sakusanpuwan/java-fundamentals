@@ -73,3 +73,169 @@ Non-primitive types are defined by the programmer and can be of various types, i
 - **Non-primitive types** are created by the programmer and can vary in size.
 - **Primitive types** store actual values, while **non-primitive types** store references to objects.
 - **Primitive types** stored on the stack and **non-primitive types** stored on the heap
+
+## Special Data Types
+
+### Enums
+Enums (short for "enumerations") are a special data type that represents a fixed set of constants.  
+
+Instead of using a collection of `int` or `String` constants, you can define an enum to represent a group of related values in a more type-safe and readable way.
+
+```java
+public enum Day {
+    SUNDAY,
+    MONDAY,
+    TUESDAY,
+    WEDNESDAY,
+    THURSDAY,
+    FRIDAY,
+    SATURDAY
+}
+```
+
+In this example, `Day` is an enum that represents the days of the week. Each constant (e.g., `SUNDAY`, `MONDAY`) is an instance of the `Day` enum. Enums provide a way to define a set of named constants, making your code more readable and less error-prone.
+
+```java
+if (today == Day.MONDAY) {
+    System.out.println("Start of the work week!");
+}
+```
+
+Enums can also have fields, methods, and constructors, allowing you to associate additional data and behavior with each constant.
+
+```java
+public enum OrderStatus {
+    PENDING(1),
+    SHIPPED(2),
+    DELIVERED(3);
+
+    private int code;
+
+    OrderStatus(int code) {
+        this.code = code;
+    }
+
+    public int getCode() {
+        return code;
+    }
+}
+```
+
+```java
+OrderStatus status = OrderStatus.SHIPPED;
+System.out.println("Order status: " + status); // Output: Order status: SHIPPED
+System.out.println("Status code: " + status.getCode()); // Output: Status code: 2
+``` 
+Use enums when  
+- Fixed, known set of values
+- States, types or categories
+- Replaces constants for better readability and maintainability
+
+## Record
+Records are a special type of class in Java that is designed to hold immutable data. They provide a concise syntax for declaring classes that are primarily used to store data, without the need for boilerplate code such as constructors, getters, `equals()`, `hashCode()`, and `toString()` methods, making them ideal for DTOs, API responses, and simple data carriers.
+
+Traditional Class
+```java
+public class User {
+    private final String name;
+    private final int age;
+
+    public User(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return age == user.age && Objects.equals(name, user.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, age);
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "name='" + name + '\'' +
+                ", age=" + age +
+                '}';
+    }
+}
+```
+
+Record Class
+```java
+public record User(String name, int age) {}
+```
+
+In this example, the `User` record automatically generates a constructor, getters, `equals()`, `hashCode()`, and `toString()` methods based on the fields defined in the record declaration. Records are immutable by default, meaning that once an instance is created, its state cannot be changed.
+
+Important to note:
+- Records are implicitly `final`, so they cannot be subclassed.
+- All fields in a record are implicitly `private` and `final`.
+- Records are ideal for simple data carriers, but they are not suitable for complex objects that require mutable state or behavior beyond data storage.
+- Records can implement interfaces but cannot extend other classes.
+
+## Optional
+`Optional` is a container object that may or may not contain a non-null value. It is used to represent the presence or absence of a value, providing a more expressive way to handle null values and avoid `NullPointerException`.
+
+```java
+Optional<String> optionalString = Optional.of("Hello, World!");
+if (optionalString.isPresent()) {
+    System.out.println(optionalString.get()); // Output: Hello, World!
+}
+```
+
+In this example, `optionalString` is an `Optional` that contains a non-null value. The `isPresent()` method checks if the value is present, and the `get()` method retrieves the value if it is present.
+
+Empty Optional
+```java
+Optional<String> emptyOptional = Optional.empty();
+if (emptyOptional.isEmpty()) {
+    System.out.println("No value present."); // Output: No value present.
+}
+```
+
+Nullable Optional
+```java
+Optional<String> nullableOptional = Optional.ofNullable(null);
+if (nullableOptional.isEmpty()) {
+    System.out.println("No value present."); // Output: No value present.
+}
+```
+
+`Optional` provides several methods to work with the contained value, such as `orElse()`, `orElseGet()`, and `orElseThrow()`, which allow you to specify default values or throw exceptions when the value is absent.
+
+```java
+Optional<String> optionalString = Optional.ofNullable(null);
+String result = optionalString.orElse("Default Value");
+System.out.println(result); // Output: Default Value
+
+String result2 = optionalString.orElseGet(() -> "Generated Default Value");
+System.out.println(result2); // Output: Generated Default Value
+
+try {
+    String result3 = optionalString.orElseThrow(() -> new IllegalStateException("Value is absent"));
+} catch (IllegalStateException e) {
+    System.out.println(e.getMessage()); // Output: Value is absent
+}
+```
+
+Use `Optional` when:
+- A value may be absent (null) and you want to avoid `NullPointerException`.
+- You want to provide a more expressive API for handling optional values.
+- You want to chain operations on a value that may be absent without having to check for null at each step.
+
