@@ -75,7 +75,7 @@ Is used to specify an unknown type. It is represented by the question mark (?) s
 | **Flexibility**  | Less flexible (you must specify the type) | More flexible (can accept multiple types)       |
 
 **Type Inference (Diamond Operator)**  
-The Java compiler can infer the type parameters based on the context, allowing you to not explicitly specify them. The diamond operator (<>) is used to simplify the instantiation of generic classes by telling the compiler to infer the type parameters from the variable declaration.
+The Java compiler can infer the type parameters based on the context, allowing you to not explicitly specify them. The diamond operator (`<>`) is used to simplify the instantiation of generic classes by telling the compiler to infer the type parameters from the variable declaration.
 
 Without diamond operator (before Java 7) - have to repeat the generic type on both sides of the assignment
 
@@ -101,7 +101,7 @@ public Stack() {
 }
 ```
 
-<> tells the compiler to infer that the HashMap should be parameterized with <String, List< Integer >> based on the variable declaration.
+`<>` tells the compiler to infer that the HashMap should be parameterized with `<String, List< Integer >>` based on the variable declaration.
 
 **PECS Rule** - Producer Extends Consumer Super
 
@@ -127,7 +127,7 @@ public static void printNumbers(List<? extends Number> list) {
 ```java
 public static void addIntegers(List<? super Integer> list) {
     list.add(42);  // Safe to add Integer
-    Object x = list.get(0); // Only safe to read as Object
+    Object x = list.get(0); // Only safe to read as Object because actual type could be List<Object>, List<Number>, etc.
 }
 ```
 

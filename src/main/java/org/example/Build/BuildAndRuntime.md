@@ -1,3 +1,74 @@
+# Compilation Flow
+1.  **Source Code**: You write Java source code in `.java` files.
+2.  **Compilation**: The Java compiler (`javac`) compiles the source code into bytecode, which is stored in `.class` files. Bytecode is a platform-independent intermediate representation of your code.
+3.  **Class Loader**: When you run your Java application, the JVM's class loader loads the compiled bytecode into memory. It locates the `.class` files and loads them into the JVM's method area (or metaspace).
+4.  **Execution**: The JVM executes the bytecode using the Java Virtual Machine Interpreter or Just-In-Time (JIT) compiler, which translates bytecode into native machine code for execution on the host system.
+5.  **Memory Management**: During execution, the JVM manages memory for objects created on the heap and handles method calls using the stack. The garbage collector automatically reclaims memory from objects that are no longer referenced.  
+
+
+# Maven
+Maven is a build automation and dependency management tool for Java (and JVM-based) projects.
+
+At its core, Maven:
+
+- Builds your project (compile, test, package)
+- Manages dependencies (automatically downloads consistentlibraries for you)
+- Enforces a standard project structure
+- Provides a predictable build lifecycle
+- Easy integration with CI/CD pipelines
+
+## Project Structure
+```css
+project/
+├── pom.xml
+└── src/
+    ├── main/
+    │   ├── java/
+    │   └── resources/
+    └── test/
+        ├── java/
+        └── resources/
+```
+
+## POM (Project Object Model)
+The `pom.xml` file is the heart of a Maven project. It defines the project structure, dependencies, build configuration, and more.
+
+```xml
+<project>
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.example</groupId>
+    <artifactId>demo-app</artifactId>
+    <version>1.0.0</version>
+    <packaging>jar</packaging>
+</project>
+```
+
+```xml
+<dependencies>
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+</dependencies>
+```
+
+Maven will automatically download the dependencies and cache them in your local repository (`~/.m2/repository`), making it easy to manage and share dependencies across projects.
+
+## Maven Lifecycle
+Maven has a predefined lifecycle that consists of several phases. Each phase represents a stage in the build process, and you can bind goals (tasks) to these phases.
+
+| Phase      | Purpose                 |
+| ---------- | ----------------------- |
+| `validate` | Check project structure |
+| `compile`  | Compile source code     |
+| `test`     | Run tests               |
+| `package`  | Create JAR/WAR          |
+| `verify`   | Run checks              |
+| `install`  | Install to local repo   |
+| `deploy`   | Deploy to remote repo   |
+
+
 # Java Memory Management
 
 Is the process by which the Java Virtual Machine (JVM) automatically handles the allocation and reallocation of memory.
@@ -24,7 +95,7 @@ Memory Areas:
 - Only one heap for a running JVM process
 - Managed by the Garbage Collector (GC) for automatic memory management
 
-**Method Area** / Metaspace in modern JVMs
+**Method Area** / **Metaspace in modern JVMs**
 
 - Where class - level data is stored - not individual objects
 - Used for class metadata(class name, methods, fields), static variables, constant pool, method and constructor bytecode
@@ -192,3 +263,4 @@ A memory leak in Java occurs when objects that are no longer needed remain reach
 In this example, the `list` keeps growing indefinitely as new `Object` instances are added to it. Since the list maintains references to all these objects, they cannot be garbage collected, leading to a memory leak.
 
 Tools like VisualVM (comes with JDK) can be used to detect memory leaks by monitoring heap usage and analyzing object references.
+
